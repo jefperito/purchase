@@ -31,6 +31,7 @@ public class PurchaseService {
                 throw new CurrencyNotFoundException(currency);
             }
             response.getData().forEach(e -> log.info(e.toString()));
+            // TODO convert the amount and round
         });
         return purchase;
     }

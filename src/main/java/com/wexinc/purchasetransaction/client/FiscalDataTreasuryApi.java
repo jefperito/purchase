@@ -5,7 +5,9 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
+import reactor.util.retry.Retry;
 
+import java.time.Duration;
 import java.time.LocalDate;
 
 @Service
@@ -21,6 +23,7 @@ public class FiscalDataTreasuryApi {
             .build();
     }
 
+    // TODO Cache into Redis TTL 24h
     public FiscalDataResponse getData(final String currencyDescription) {
         var uri = String.format(
             "/v1/accounting/od/rates_of_exchange" +
@@ -34,6 +37,7 @@ public class FiscalDataTreasuryApi {
             .uri(uri)
             .retrieve()
             .bodyToMono(FiscalDataResponse.class)
+            .retryWhen(Retry.backoff(3, Duration.ofMillis(500)))
             .block();
     }
 }

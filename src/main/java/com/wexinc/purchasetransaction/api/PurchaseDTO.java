@@ -1,15 +1,12 @@
 package com.wexinc.purchasetransaction.api;
 
 import com.wexinc.purchasetransaction.model.Purchase;
-import jakarta.annotation.Nullable;
 import jakarta.validation.constraints.*;
 
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 
 public record PurchaseDTO(
-        @Nullable String id,
-
         @NotBlank(message = "A descrição é obrigatória.")
         @Size(max = 50, message = "A descrição não pode passar de 50 caracteres.")
         String description,
@@ -31,7 +28,7 @@ public record PurchaseDTO(
         return purchase;
     }
     public static PurchaseDTO fromEntity(final Purchase purchase) {
-        return new PurchaseDTO(purchase.getId().toString(),
+        return new PurchaseDTO(
             purchase.getDescription(),
             purchase.getTransactionDate(),
             purchase.getAmount());
