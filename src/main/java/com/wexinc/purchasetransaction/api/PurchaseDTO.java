@@ -6,7 +6,6 @@ import jakarta.validation.constraints.*;
 
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
-import java.util.UUID;
 
 public record PurchaseDTO(
         @Nullable String id,
