@@ -51,8 +51,7 @@ public class PurchaseControllerTest {
             .contentType(MediaType.APPLICATION_JSON)
             .header("x-idempotency-key", idempotencyKey)
             .content(objectMapper.writeValueAsString(dto)))
-            .andExpect(MockMvcResultMatchers.status().isOk())
-            .andReturn();
+            .andExpect(MockMvcResultMatchers.status().isOk());
 
         var purchases = repository.findAll();
         Assertions.assertFalse(purchases.isEmpty());
@@ -74,15 +73,13 @@ public class PurchaseControllerTest {
             .contentType(MediaType.APPLICATION_JSON)
             .header("x-idempotency-key", idempotencyKey)
             .content(objectMapper.writeValueAsString(dto)))
-            .andExpect(MockMvcResultMatchers.status().isOk())
-            .andReturn();
+            .andExpect(MockMvcResultMatchers.status().isOk());
 
         mockMvc.perform(MockMvcRequestBuilders.post("/purchases")
             .contentType(MediaType.APPLICATION_JSON)
             .header("x-idempotency-key", idempotencyKey)
             .content(objectMapper.writeValueAsString(dto)))
-            .andExpect(MockMvcResultMatchers.status().is(409))
-            .andReturn();
+            .andExpect(MockMvcResultMatchers.status().is(409));
     }
 
     private static PurchaseDTO buildTransactionDTO() {
