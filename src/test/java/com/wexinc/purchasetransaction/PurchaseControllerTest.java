@@ -65,6 +65,26 @@ public class PurchaseControllerTest {
         Assertions.assertEquals(idempotencyKey, savedPurchase.getIdempotencyKey());
     }
 
+    @Test
+    void should_avoid_duplicate_transaction() throws Exception {
+        var dto = buildTransactionDTO();
+
+        var idempotencyKey = UUID.randomUUID().toString();
+        mockMvc.perform(MockMvcRequestBuilders.post("/purchases")
+            .contentType(MediaType.APPLICATION_JSON)
+            .header("x-idempotency-key", idempotencyKey)
+            .content(objectMapper.writeValueAsString(dto)))
+            .andExpect(MockMvcResultMatchers.status().isOk())
+            .andReturn();
+
+        mockMvc.perform(MockMvcRequestBuilders.post("/purchases")
+            .contentType(MediaType.APPLICATION_JSON)
+            .header("x-idempotency-key", idempotencyKey)
+            .content(objectMapper.writeValueAsString(dto)))
+            .andExpect(MockMvcResultMatchers.status().is(409))
+            .andReturn();
+    }
+
     private static PurchaseDTO buildTransactionDTO() {
         var transactionDate = OffsetDateTime.now(ZoneOffset.UTC).truncatedTo(ChronoUnit.MICROS);
         return new PurchaseDTO("abcde", transactionDate, new BigDecimal("10.99"));
