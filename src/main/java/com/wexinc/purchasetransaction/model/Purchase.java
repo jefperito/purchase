@@ -1,6 +1,8 @@
 package com.wexinc.purchasetransaction.model;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import lombok.Data;
 
@@ -12,6 +14,7 @@ import java.util.UUID;
 @Entity(name = "purchase")
 public class Purchase {
     @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
     public UUID id;
 
     private String idempotencyKey;

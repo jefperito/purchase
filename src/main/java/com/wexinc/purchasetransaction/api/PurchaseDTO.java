@@ -24,7 +24,6 @@ public record PurchaseDTO(
         BigDecimal amount) {
     public Purchase fromEntity(final String idempotencyKey) {
         var purchase = new Purchase();
-        purchase.setId(UUID.randomUUID());
         purchase.setIdempotencyKey(idempotencyKey);
         purchase.setDescription(description);
         purchase.setTransactionDate(transactionDate);
