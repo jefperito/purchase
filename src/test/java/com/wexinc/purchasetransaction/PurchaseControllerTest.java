@@ -43,7 +43,7 @@ public class PurchaseControllerTest {
     }
 
     @Test
-    void should_test() throws Exception {
+    void should_save_transaction() throws Exception {
         var dto = buildTransactionDTO();
 
         var idempotencyKey = UUID.randomUUID().toString();
