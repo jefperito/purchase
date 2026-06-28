@@ -4,7 +4,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication(
-    scanBasePackages = { "com.wexinc.purchasetransaction.api"}
+    scanBasePackages = { "com.wexinc.purchasetransaction"}
 )
 public class PurchaseTransactionApplication {
 

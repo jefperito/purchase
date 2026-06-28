@@ -1,5 +1,6 @@
 package com.wexinc.purchasetransaction.api;
 
+import com.wexinc.purchasetransaction.exception.CurrencyNotFoundException;
 import com.wexinc.purchasetransaction.exception.PurchaseNotFoundException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
@@ -25,7 +26,13 @@ public class ControllerAdvice {
     @ResponseStatus(HttpStatus.CONFLICT)
     @ExceptionHandler(DataIntegrityViolationException.class)
     public String handleDuplicateKey(DataIntegrityViolationException exception) {
-        return "Requisição duplicada";
+        return "Duplicated request";
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(CurrencyNotFoundException.class)
+    public String handleCurrencyNotFound(CurrencyNotFoundException exception) {
+        return exception.getMessage();
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)

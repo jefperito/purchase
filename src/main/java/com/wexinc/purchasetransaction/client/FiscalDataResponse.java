@@ -1,0 +1,25 @@
+package com.wexinc.purchasetransaction.client;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Data;
+
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.util.List;
+
+@Data
+public class FiscalDataResponse {
+    private List<ExchangeRateData> data;
+
+    @Data
+    public static class ExchangeRateData {
+        @JsonProperty("country_currency_desc")
+        private String countryCurrencyDesc;
+
+        @JsonProperty("exchange_rate")
+        private BigDecimal exchangeRate;
+
+        @JsonProperty("record_date")
+        private LocalDate recordDate;
+    }
+}
