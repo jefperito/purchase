@@ -31,7 +31,6 @@ public class FiscalDataTreasuryApi {
             .build();
     }
 
-    // TODO Cache into Redis TTL 24h
     public FiscalDataResponse getData(final Purchase purchase, final String currencyDescription) {
         var uri = String.format(
             "/v1/accounting/od/rates_of_exchange" +
