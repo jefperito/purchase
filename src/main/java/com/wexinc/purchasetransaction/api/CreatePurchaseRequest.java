@@ -4,6 +4,7 @@ import com.wexinc.purchasetransaction.entity.Purchase;
 import jakarta.validation.constraints.*;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.OffsetDateTime;
 
 public record CreatePurchaseRequest(
@@ -23,7 +24,7 @@ public record CreatePurchaseRequest(
         purchase.setIdempotencyKey(idempotencyKey);
         purchase.setDescription(description);
         purchase.setTransactionDate(transactionDate);
-        purchase.setAmount(amount);
+        purchase.setAmount(amount.setScale(2, RoundingMode.HALF_UP));
 
         return purchase;
     }
