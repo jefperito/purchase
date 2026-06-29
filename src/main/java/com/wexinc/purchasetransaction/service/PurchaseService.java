@@ -1,6 +1,6 @@
 package com.wexinc.purchasetransaction.service;
 
-import com.wexinc.purchasetransaction.api.CreatePurchaseRequest;
+import com.wexinc.purchasetransaction.model.CreatePurchaseRequest;
 import com.wexinc.purchasetransaction.entity.Purchase;
 import com.wexinc.purchasetransaction.exception.PurchaseNotFoundException;
 import com.wexinc.purchasetransaction.repository.PurchaseRepository;

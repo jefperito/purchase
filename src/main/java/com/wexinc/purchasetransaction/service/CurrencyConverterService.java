@@ -1,6 +1,6 @@
 package com.wexinc.purchasetransaction.service;
 
-import com.wexinc.purchasetransaction.client.FiscalDataResponse;
+import com.wexinc.purchasetransaction.model.FiscalDataResponse;
 import com.wexinc.purchasetransaction.client.FiscalDataTreasuryApi;
 import com.wexinc.purchasetransaction.entity.Purchase;
 import com.wexinc.purchasetransaction.exception.CurrencyNotFoundException;

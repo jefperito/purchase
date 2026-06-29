@@ -1,4 +1,4 @@
-package com.wexinc.purchasetransaction.api;
+package com.wexinc.purchasetransaction.model;
 
 import com.wexinc.purchasetransaction.entity.Purchase;
 import jakarta.validation.constraints.*;

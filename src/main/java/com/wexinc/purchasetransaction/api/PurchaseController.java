@@ -1,5 +1,7 @@
 package com.wexinc.purchasetransaction.api;
 
+import com.wexinc.purchasetransaction.model.CreatePurchaseRequest;
+import com.wexinc.purchasetransaction.model.PurchaseResponse;
 import com.wexinc.purchasetransaction.service.CurrencyConverterService;
 import com.wexinc.purchasetransaction.service.PurchaseService;
 import jakarta.validation.Valid;
@@ -21,7 +23,7 @@ public class PurchaseController {
 
     @GetMapping("/{purchaseId}")
     public PurchaseResponse getPurchase(@PathVariable final String purchaseId,
-                                             @RequestParam(required = false) final String currency) {
+                                        @RequestParam(required = false) final String currency) {
         var purchase = purchaseService.retrieve(purchaseId);
         return Optional.ofNullable(currency)
             .map(c ->

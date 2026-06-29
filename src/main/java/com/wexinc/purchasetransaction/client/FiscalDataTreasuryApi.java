@@ -1,5 +1,6 @@
 package com.wexinc.purchasetransaction.client;
 
+import com.wexinc.purchasetransaction.model.FiscalDataResponse;
 import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;

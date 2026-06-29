@@ -1,4 +1,4 @@
-package com.wexinc.purchasetransaction.client;
+package com.wexinc.purchasetransaction.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;

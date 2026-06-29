@@ -1,7 +1,6 @@
-package com.wexinc.purchasetransaction.api;
+package com.wexinc.purchasetransaction.model;
 
 import com.wexinc.purchasetransaction.entity.Purchase;
-import com.wexinc.purchasetransaction.model.CurrencyConverterResult;
 
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
