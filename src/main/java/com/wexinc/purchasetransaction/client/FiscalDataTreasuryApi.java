@@ -1,8 +1,9 @@
 package com.wexinc.purchasetransaction.client;
 
-import com.wexinc.purchasetransaction.entity.Purchase;
 import jakarta.annotation.PostConstruct;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
@@ -12,6 +13,7 @@ import reactor.util.retry.Retry;
 import java.time.Duration;
 
 @Service
+@Slf4j
 public class FiscalDataTreasuryApi {
 
     private WebClient client;
@@ -31,12 +33,18 @@ public class FiscalDataTreasuryApi {
             .build();
     }
 
-    public FiscalDataResponse getData(final Purchase purchase, final String currencyDescription) {
+    @Cacheable(
+        cacheNames = "fiscalData",
+        key = "#currencyDescription + ':' + #recordDate"
+    )
+    public FiscalDataResponse getData(final String recordDate, final String currencyDescription) {
+        log.info("Getting {} and {} from Fiscal data API", currencyDescription, recordDate);
+
         var uri = String.format(
             "/v1/accounting/od/rates_of_exchange" +
                 "?fields=country_currency_desc,exchange_rate,record_date" +
                 "&filter=record_date:gte:%s,country_currency_desc:in:(%s)",
-            purchase.getTransactionDate().toLocalDate().minusMonths(6),
+            recordDate,
             currencyDescription
         );
 

@@ -18,7 +18,8 @@ public class CurrencyConverterService {
     private final FiscalDataTreasuryApi dataTreasuryApi;
 
     public CurrencyConverterResult calculateCurrency(final Purchase purchase, final String currency) {
-        var response = dataTreasuryApi.getData(purchase, currency);
+        var recordDate = purchase.getTransactionDate().toLocalDate().minusMonths(6).toString();
+        var response = dataTreasuryApi.getData(recordDate, currency);
         if (response.getData().isEmpty()) {
             throw new CurrencyNotFoundException(currency);
         }
