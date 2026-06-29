@@ -31,7 +31,7 @@ public class PurchaseService {
     }
 
     public BigDecimal calculateCurrency(final Purchase purchase, final String currency) {
-        var response = dataTreasuryApi.getData(currency);
+        var response = dataTreasuryApi.getData(purchase, currency);
         if (response.getData().isEmpty()) {
             throw new CurrencyNotFoundException(currency);
         }
@@ -40,7 +40,7 @@ public class PurchaseService {
                 .max(Comparator.comparing(FiscalDataResponse.ExchangeRateData::getRecordDate))
                 .orElseThrow(() -> new IllegalStateException("Empty result"));
 
-        return purchase.getAmount().multiply(mostRecent.getExchangeRate()).setScale(2, RoundingMode.UP);
+        return purchase.getAmount().multiply(mostRecent.getExchangeRate()).setScale(2, RoundingMode.HALF_UP);
     }
 
     public Purchase save(final String idempotencyKey, final CreatePurchaseRequest purchaseDTO) {

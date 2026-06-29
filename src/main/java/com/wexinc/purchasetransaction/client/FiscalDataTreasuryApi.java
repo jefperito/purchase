@@ -1,5 +1,6 @@
 package com.wexinc.purchasetransaction.client;
 
+import com.wexinc.purchasetransaction.model.Purchase;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
@@ -9,7 +10,6 @@ import org.springframework.web.reactive.function.client.WebClient;
 import reactor.util.retry.Retry;
 
 import java.time.Duration;
-import java.time.LocalDate;
 
 @Service
 public class FiscalDataTreasuryApi {
@@ -32,12 +32,12 @@ public class FiscalDataTreasuryApi {
     }
 
     // TODO Cache into Redis TTL 24h
-    public FiscalDataResponse getData(final String currencyDescription) {
+    public FiscalDataResponse getData(final Purchase purchase, final String currencyDescription) {
         var uri = String.format(
             "/v1/accounting/od/rates_of_exchange" +
                 "?fields=country_currency_desc,exchange_rate,record_date" +
                 "&filter=record_date:gte:%s,country_currency_desc:in:(%s)",
-            LocalDate.now().minusMonths(6),
+            purchase.getTransactionDate().toLocalDate().minusMonths(6),
             currencyDescription
         );
 
