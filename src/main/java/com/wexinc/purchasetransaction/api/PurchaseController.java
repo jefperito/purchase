@@ -1,5 +1,6 @@
 package com.wexinc.purchasetransaction.api;
 
+import com.wexinc.purchasetransaction.service.CurrencyConverterService;
 import com.wexinc.purchasetransaction.service.PurchaseService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +17,7 @@ import java.util.Optional;
 public class PurchaseController {
 
     private final PurchaseService purchaseService;
+    private final CurrencyConverterService currencyConverterService;
 
     @GetMapping("/{purchaseId}")
     public PurchaseResponse getPurchase(@PathVariable final String purchaseId,
@@ -23,7 +25,9 @@ public class PurchaseController {
         var purchase = purchaseService.retrieve(purchaseId);
         return Optional.ofNullable(currency)
             .map(c ->
-                PurchaseResponse.fromEntity(purchase, purchaseService.calculateCurrency(purchase, currency)))
+                PurchaseResponse.fromEntity(
+                    purchase,
+                    currencyConverterService.calculateCurrency(purchase, currency)))
             .orElse(PurchaseResponse.fromEntity(purchase));
     }
 

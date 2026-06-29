@@ -1,6 +1,6 @@
 package com.wexinc.purchasetransaction.repository;
 
-import com.wexinc.purchasetransaction.model.Purchase;
+import com.wexinc.purchasetransaction.entity.Purchase;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

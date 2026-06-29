@@ -1,6 +1,6 @@
 package com.wexinc.purchasetransaction.api;
 
-import com.wexinc.purchasetransaction.model.Purchase;
+import com.wexinc.purchasetransaction.entity.Purchase;
 import jakarta.validation.constraints.*;
 
 import java.math.BigDecimal;

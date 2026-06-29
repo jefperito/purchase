@@ -134,6 +134,7 @@ public class PurchaseControllerTest {
 
         Assertions.assertEquals(new BigDecimal("10.99"), getPurchase.amount());
         Assertions.assertEquals(new BigDecimal("10.99"), getPurchase.convertedAmount());
+        Assertions.assertEquals(new BigDecimal("1.00"), getPurchase.exchangeRate());
     }
 
     @Test
@@ -167,6 +168,7 @@ public class PurchaseControllerTest {
 
         Assertions.assertEquals(new BigDecimal("10.99"), getPurchase.amount());
         Assertions.assertEquals(new BigDecimal("15.06"), getPurchase.convertedAmount());
+        Assertions.assertEquals(new BigDecimal("1.37"), getPurchase.exchangeRate());
     }
 
     private void mockFiscalDataAPiWithoutData() {

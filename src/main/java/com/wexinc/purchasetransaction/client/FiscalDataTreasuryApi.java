@@ -1,6 +1,6 @@
 package com.wexinc.purchasetransaction.client;
 
-import com.wexinc.purchasetransaction.model.Purchase;
+import com.wexinc.purchasetransaction.entity.Purchase;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;

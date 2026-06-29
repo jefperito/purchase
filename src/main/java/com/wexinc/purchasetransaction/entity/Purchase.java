@@ -1,4 +1,4 @@
-package com.wexinc.purchasetransaction.model;
+package com.wexinc.purchasetransaction.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
