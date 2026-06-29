@@ -12,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Comparator;
 import java.util.UUID;
 
@@ -39,7 +40,7 @@ public class PurchaseService {
                 .max(Comparator.comparing(FiscalDataResponse.ExchangeRateData::getRecordDate))
                 .orElseThrow(() -> new IllegalStateException("Empty result"));
 
-        return purchase.getAmount().multiply(mostRecent.getExchangeRate());
+        return purchase.getAmount().multiply(mostRecent.getExchangeRate()).setScale(2, RoundingMode.UP);
     }
 
     public Purchase save(final String idempotencyKey, final CreatePurchaseRequest purchaseDTO) {

@@ -152,7 +152,7 @@ public class PurchaseControllerTest {
         var getPurchase = objectMapper.readValue(getResponse.getContentAsString(), PurchaseResponse.class);
 
         Assertions.assertEquals(new BigDecimal("10.99"), getPurchase.amount());
-        Assertions.assertEquals(new BigDecimal("15.0563"), getPurchase.convertedAmount());
+        Assertions.assertEquals(new BigDecimal("15.06"), getPurchase.convertedAmount());
     }
 
     private void mockFiscalDataAPiWithoutData() {
