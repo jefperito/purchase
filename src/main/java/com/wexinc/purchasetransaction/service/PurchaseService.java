@@ -9,6 +9,7 @@ import com.wexinc.purchasetransaction.model.Purchase;
 import com.wexinc.purchasetransaction.repository.PurchaseRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -44,6 +45,10 @@ public class PurchaseService {
     }
 
     public Purchase save(final String idempotencyKey, final CreatePurchaseRequest purchaseDTO) {
-        return repository.save(purchaseDTO.fromEntity(idempotencyKey));
+        try {
+            return repository.save(purchaseDTO.fromEntity(idempotencyKey));
+        } catch (DataIntegrityViolationException e) {
+            return repository.findByIdempotencyKey(idempotencyKey);
+        }
     }
 }

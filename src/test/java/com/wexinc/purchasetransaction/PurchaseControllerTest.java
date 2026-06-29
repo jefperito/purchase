@@ -93,17 +93,31 @@ public class PurchaseControllerTest {
         var dto = buildTransactionDTO();
 
         var idempotencyKey = UUID.randomUUID().toString();
-        mockMvc.perform(MockMvcRequestBuilders.post("/purchases")
+        var firstResult = mockMvc.perform(MockMvcRequestBuilders.post("/purchases")
             .contentType(MediaType.APPLICATION_JSON)
             .header("x-idempotency-key", idempotencyKey)
             .content(objectMapper.writeValueAsString(dto)))
-            .andExpect(MockMvcResultMatchers.status().isCreated());
+            .andExpect(MockMvcResultMatchers.status().isCreated())
+            .andReturn();
 
-        mockMvc.perform(MockMvcRequestBuilders.post("/purchases")
+        var secondResult = mockMvc.perform(MockMvcRequestBuilders.post("/purchases")
             .contentType(MediaType.APPLICATION_JSON)
             .header("x-idempotency-key", idempotencyKey)
             .content(objectMapper.writeValueAsString(dto)))
-            .andExpect(MockMvcResultMatchers.status().is(409));
+            .andExpect(MockMvcResultMatchers.status().isCreated())
+            .andReturn();
+
+        var first =
+            objectMapper.readValue(
+                firstResult.getResponse().getContentAsString(),
+                PurchaseResponse.class);
+
+        var second =
+            objectMapper.readValue(
+                secondResult.getResponse().getContentAsString(),
+                PurchaseResponse.class);
+
+        Assertions.assertEquals(first.id(), second.id());
     }
 
     @Test

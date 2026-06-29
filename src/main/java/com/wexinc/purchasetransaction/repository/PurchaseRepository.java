@@ -8,4 +8,6 @@ import java.util.UUID;
 
 @Repository
 public interface PurchaseRepository extends JpaRepository<Purchase, UUID> {
+
+    Purchase findByIdempotencyKey(String idempotencyKey);
 }
