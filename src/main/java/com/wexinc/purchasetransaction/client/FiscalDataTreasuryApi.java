@@ -1,6 +1,7 @@
 package com.wexinc.purchasetransaction.client;
 
 import jakarta.annotation.PostConstruct;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
@@ -15,10 +16,17 @@ public class FiscalDataTreasuryApi {
 
     private WebClient client;
 
+    private final String url;
+
+    public FiscalDataTreasuryApi(
+            @Value("${fiscal.api.base-url}") String url) {
+        this.url = url;
+    }
+
     @PostConstruct
     private void buildClient() {
         this.client = WebClient.builder()
-            .baseUrl("https://api.fiscaldata.treasury.gov/services/api/fiscal_service")
+            .baseUrl(url)
             .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
             .build();
     }

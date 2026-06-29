@@ -1,6 +1,7 @@
 package com.wexinc.purchasetransaction.service;
 
-import com.wexinc.purchasetransaction.api.PurchaseDTO;
+import com.wexinc.purchasetransaction.api.CreatePurchaseRequest;
+import com.wexinc.purchasetransaction.client.FiscalDataResponse;
 import com.wexinc.purchasetransaction.client.FiscalDataTreasuryApi;
 import com.wexinc.purchasetransaction.exception.CurrencyNotFoundException;
 import com.wexinc.purchasetransaction.exception.PurchaseNotFoundException;
@@ -10,7 +11,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
+import java.math.BigDecimal;
+import java.util.Comparator;
 import java.util.UUID;
 
 @Service
@@ -22,21 +24,25 @@ public class PurchaseService {
 
     private final FiscalDataTreasuryApi dataTreasuryApi;
 
-    public Purchase retrieve(final String purchaseId, final String currency) {
-        var purchase = repository.findById(UUID.fromString(purchaseId))
-                .orElseThrow(() -> new PurchaseNotFoundException(purchaseId));
-        Optional.ofNullable(currency).ifPresent(c -> {
-            var response = dataTreasuryApi.getData(currency);
-            if (response.getData().isEmpty()) {
-                throw new CurrencyNotFoundException(currency);
-            }
-            response.getData().forEach(e -> log.info(e.toString()));
-            // TODO convert the amount and round
-        });
-        return purchase;
+    public Purchase retrieve(final String purchaseId) {
+        return repository.findById(UUID.fromString(purchaseId))
+            .orElseThrow(() -> new PurchaseNotFoundException(purchaseId));
     }
 
-    public Purchase save(final String idempotencyKey, final PurchaseDTO purchaseDTO) {
+    public BigDecimal calculateCurrency(final Purchase purchase, final String currency) {
+        var response = dataTreasuryApi.getData(currency);
+        if (response.getData().isEmpty()) {
+            throw new CurrencyNotFoundException(currency);
+        }
+        var mostRecent =
+            response.getData().stream()
+                .max(Comparator.comparing(FiscalDataResponse.ExchangeRateData::getRecordDate))
+                .orElseThrow(() -> new IllegalStateException("Empty result"));
+
+        return purchase.getAmount().multiply(mostRecent.getExchangeRate());
+    }
+
+    public Purchase save(final String idempotencyKey, final CreatePurchaseRequest purchaseDTO) {
         return repository.save(purchaseDTO.fromEntity(idempotencyKey));
     }
 }

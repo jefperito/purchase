@@ -6,7 +6,7 @@ import jakarta.validation.constraints.*;
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 
-public record PurchaseDTO(
+public record CreatePurchaseRequest(
         @NotBlank(message = "A descrição é obrigatória.")
         @Size(max = 50, message = "A descrição não pode passar de 50 caracteres.")
         String description,
@@ -26,11 +26,5 @@ public record PurchaseDTO(
         purchase.setAmount(amount);
 
         return purchase;
-    }
-    public static PurchaseDTO fromEntity(final Purchase purchase) {
-        return new PurchaseDTO(
-            purchase.getDescription(),
-            purchase.getTransactionDate(),
-            purchase.getAmount());
     }
 }

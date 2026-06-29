@@ -1,7 +1,9 @@
 package com.wexinc.purchasetransaction.client;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -11,6 +13,8 @@ import java.util.List;
 public class FiscalDataResponse {
     private List<ExchangeRateData> data;
 
+    @NoArgsConstructor
+    @AllArgsConstructor
     @Data
     public static class ExchangeRateData {
         @JsonProperty("country_currency_desc")
